@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { insertSubscriber, getSubscriberCount } from '../../lib/db';
 
 export const prerender = false; // This endpoint is server-rendered
 
@@ -14,9 +15,11 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // TODO: Save to database once Postgres is set up
-    // For now, just log it
-    console.log(`[Subscribe] New signup: ${email}`);
+    // Save to SQLite database
+    insertSubscriber.run(email);
+
+    const { count } = getSubscriberCount.get() as { count: number };
+    console.log(`[Subscribe] New signup: ${email} (total: ${count})`);
 
     // TODO: Send welcome email via Resend/Postmark/etc.
 

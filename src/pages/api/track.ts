@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { insertEvent } from '../../lib/db';
 
 export const prerender = false; // This endpoint is server-rendered
 
@@ -13,7 +14,7 @@ interface TrackEvent {
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body: TrackEvent = await request.json();
-    const { event, slug, url, referrer, data } = body;
+    const { event, slug, referrer, data } = body;
 
     if (!event) {
       return new Response(
@@ -28,18 +29,18 @@ export const POST: APIRoute = async ({ request }) => {
                request.headers.get('x-real-ip') ||
                'unknown';
 
-    // TODO: Save to database once Postgres is set up
-    console.log(`[Track] ${event}`, {
-      slug,
-      url,
-      referrer,
-      userAgent: userAgent.substring(0, 100),
+    // Save to SQLite database
+    insertEvent.run(
+      event,
+      slug || null,
+      referrer || null,
+      userAgent.substring(0, 500),
       ip,
-      data,
-      timestamp: new Date().toISOString(),
-    });
+      data ? JSON.stringify(data) : null
+    );
 
-    // Return 1x1 transparent pixel for image-based tracking fallback
+    console.log(`[Track] ${event}`, { slug, ip: ip.substring(0, 15) });
+
     return new Response(
       JSON.stringify({ success: true }),
       {
@@ -62,10 +63,27 @@ export const POST: APIRoute = async ({ request }) => {
 // Also support GET for simple pageview tracking via pixel
 export const GET: APIRoute = async ({ request, url }) => {
   const event = url.searchParams.get('e') || 'pageview';
-  const slug = url.searchParams.get('s') || '';
-  const ref = url.searchParams.get('r') || '';
+  const slug = url.searchParams.get('s') || null;
+  const referrer = url.searchParams.get('r') || null;
 
-  console.log(`[Track/GET] ${event}`, { slug, referrer: ref });
+  const userAgent = request.headers.get('user-agent') || 'unknown';
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ||
+             request.headers.get('x-real-ip') ||
+             'unknown';
+
+  // Save to SQLite database
+  try {
+    insertEvent.run(
+      event,
+      slug,
+      referrer,
+      userAgent.substring(0, 500),
+      ip,
+      null
+    );
+  } catch (error) {
+    console.error('[Track/GET] Error:', error);
+  }
 
   // Return 1x1 transparent GIF
   const pixel = Buffer.from(
