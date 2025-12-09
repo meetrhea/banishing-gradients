@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+
+const categories = [
+  'Industry News',
+  'Research',
+  'Startup Culture',
+  'Corporate',
+  'Opinion',
+  'Breaking',
+];
+
+export function getStaticPaths() {
+  return [
+    { params: { category: 'industry-news' } },
+    { params: { category: 'research' } },
+    { params: { category: 'startup-culture' } },
+    { params: { category: 'corporate' } },
+    { params: { category: 'opinion' } },
+    { params: { category: 'breaking' } },
+  ];
+}
+
+const { category } = Astro.params;
+
+// Convert slug back to category name
+const categoryName = category
+  .split('-')
+  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+  .join(' ');
+
+const allArticles = await getCollection('articles');
+const categoryArticles = allArticles
+  .filter(article => article.data.category === categoryName)
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+---
+
+<BaseLayout title={categoryName} description={`Latest ${categoryName} articles from Banishing Gradients`}>
+  <Header />
+
+  <main class="flex-1">
+    <div class="container mx-auto px-4 py-8">
+      <div class="border-b-4 accent-border pb-4 mb-8">
+        <h1 class="text-3xl md:text-4xl font-black" style="font-family: 'Playfair Display', Georgia, serif;">
+          {categoryName}
+        </h1>
+      </div>
+
+      {categoryArticles.length === 0 ? (
+        <div class="text-center py-12 text-gray-500">
+          <p>No articles in this category yet. Check back soon!</p>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {categoryArticles.map((article) => (
+            <div class="border-b border-gray-200 pb-6">
+              <ArticleCard article={article} variant="standard" />
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

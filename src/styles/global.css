@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-accent: #c52f2f;
+    --color-accent-dark: #a82828;
+  }
+
+  body {
+    @apply antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .article-headline {
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    @apply text-2xl md:text-3xl lg:text-4xl font-black leading-tight;
+  }
+
+  .article-headline-large {
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    @apply text-3xl md:text-4xl lg:text-5xl font-black leading-tight;
+  }
+
+  .category-badge {
+    @apply text-xs uppercase tracking-wider font-bold;
+    color: var(--color-accent);
+  }
+
+  .accent-border {
+    border-color: var(--color-accent);
+  }
+
+  .accent-text {
+    color: var(--color-accent);
+  }
+
+  .accent-bg {
+    background-color: var(--color-accent);
+  }
+
+  .accent-bg-hover:hover {
+    background-color: var(--color-accent-dark);
+  }
+}
+
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Article content styling */
+.article-content {
+  @apply prose prose-lg max-w-none;
+}
+
+.article-content p {
+  @apply mb-4 leading-relaxed;
+}
+
+.article-content blockquote {
+  @apply border-l-4 pl-4 italic my-6;
+  border-color: var(--color-accent);
+}
+
+.article-content h2 {
+  @apply text-2xl font-bold mt-8 mb-4;
+}
+
+.article-content h3 {
+  @apply text-xl font-bold mt-6 mb-3;
+}

@@ -1,0 +1,52 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-gray-900 text-gray-400 mt-auto">
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- About -->
+      <div>
+        <h3 class="text-white font-bold text-lg mb-3" style="font-family: 'Playfair Display', Georgia, serif;">
+          Banishing Gradients
+        </h3>
+        <p class="text-sm leading-relaxed">
+          America's most trusted source for AI and machine learning news.
+          We've been covering the tech industry since we initialized our weights.
+        </p>
+      </div>
+
+      <!-- Links -->
+      <div>
+        <h4 class="text-white font-bold mb-3">Sections</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/category/industry-news" class="hover:text-white transition-colors">Industry News</a></li>
+          <li><a href="/category/research" class="hover:text-white transition-colors">Research</a></li>
+          <li><a href="/category/startup-culture" class="hover:text-white transition-colors">Startup Culture</a></li>
+          <li><a href="/category/corporate" class="hover:text-white transition-colors">Corporate</a></li>
+          <li><a href="/category/opinion" class="hover:text-white transition-colors">Opinion</a></li>
+        </ul>
+      </div>
+
+      <!-- Subscribe -->
+      <div>
+        <h4 class="text-white font-bold mb-3">Stay Updated</h4>
+        <p class="text-sm mb-3">Subscribe to our RSS feed for the latest in AI satire.</p>
+        <a
+          href="/rss.xml"
+          class="inline-flex items-center gap-2 px-4 py-2 accent-bg text-white text-sm font-medium rounded hover:opacity-90 transition-opacity"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/>
+          </svg>
+          RSS Feed
+        </a>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-800 mt-8 pt-6 text-center text-xs">
+      <p>&copy; {currentYear} Banishing Gradients. All rights reserved.</p>
+      <p class="mt-1 text-gray-500">This is a satirical publication. All articles are fictional.</p>
+    </div>
+  </div>
+</footer>

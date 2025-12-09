@@ -1,0 +1,82 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { format } from 'date-fns';
+
+interface Props {
+  article: CollectionEntry<'articles'>;
+  variant?: 'featured' | 'standard' | 'compact';
+  showImage?: boolean;
+}
+
+const { article, variant = 'standard', showImage = true } = Astro.props;
+const { title, excerpt, author, publishedAt, category, imageUrl, imageAlt } = article.data;
+const formattedDate = format(publishedAt, 'MMMM d, yyyy');
+---
+
+{variant === 'featured' && (
+  <article class="group">
+    {showImage && imageUrl && (
+      <a href={`/article/${article.slug}`} class="block mb-4">
+        <img
+          src={imageUrl}
+          alt={imageAlt || title}
+          class="w-full h-64 md:h-80 object-cover"
+          loading="lazy"
+        />
+      </a>
+    )}
+    <span class="category-badge">{category}</span>
+    <h2 class="article-headline-large mt-2 mb-3">
+      <a href={`/article/${article.slug}`} class="hover:underline decoration-2">
+        {title}
+      </a>
+    </h2>
+    <p class="text-gray-600 text-lg mb-3 line-clamp-3">{excerpt}</p>
+    <div class="text-sm text-gray-500">
+      <span class="font-medium text-gray-700">{author}</span>
+      <span class="mx-2">·</span>
+      <time datetime={publishedAt.toISOString()}>{formattedDate}</time>
+    </div>
+  </article>
+)}
+
+{variant === 'standard' && (
+  <article class="group flex gap-4">
+    {showImage && imageUrl && (
+      <a href={`/article/${article.slug}`} class="flex-shrink-0">
+        <img
+          src={imageUrl}
+          alt={imageAlt || title}
+          class="w-32 h-24 md:w-40 md:h-28 object-cover"
+          loading="lazy"
+        />
+      </a>
+    )}
+    <div class="flex-1 min-w-0">
+      <span class="category-badge text-xs">{category}</span>
+      <h3 class="article-headline text-lg md:text-xl mt-1 mb-2">
+        <a href={`/article/${article.slug}`} class="hover:underline decoration-2">
+          {title}
+        </a>
+      </h3>
+      <p class="text-gray-600 text-sm line-clamp-2 hidden md:block">{excerpt}</p>
+      <div class="text-xs text-gray-500 mt-2">
+        <time datetime={publishedAt.toISOString()}>{formattedDate}</time>
+      </div>
+    </div>
+  </article>
+)}
+
+{variant === 'compact' && (
+  <article class="group py-3 border-b border-gray-200 last:border-0">
+    <span class="category-badge text-xs">{category}</span>
+    <h4 class="font-bold mt-1 leading-snug" style="font-family: 'Playfair Display', Georgia, serif;">
+      <a href={`/article/${article.slug}`} class="hover:underline">
+        {title}
+      </a>
+    </h4>
+    <div class="text-xs text-gray-500 mt-1">
+      <time datetime={publishedAt.toISOString()}>{formattedDate}</time>
+    </div>
+  </article>
+)}

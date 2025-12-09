@@ -1,0 +1,55 @@
+---
+const today = new Date().toLocaleDateString('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const categories = [
+  { name: 'Industry News', href: '/category/industry-news' },
+  { name: 'Research', href: '/category/research' },
+  { name: 'Startup Culture', href: '/category/startup-culture' },
+  { name: 'Corporate', href: '/category/corporate' },
+  { name: 'Opinion', href: '/category/opinion' },
+];
+---
+
+<header class="border-b-4 accent-border">
+  <!-- Top bar with date -->
+  <div class="bg-gray-100 py-1 text-center text-xs text-gray-600 border-b">
+    <span>{today}</span>
+    <span class="mx-2">|</span>
+    <span>Vol. MCMLXXXIV Issue 42</span>
+  </div>
+
+  <!-- Main header -->
+  <div class="container mx-auto px-4 py-6 text-center">
+    <a href="/" class="inline-block">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight" style="font-family: 'Playfair Display', Georgia, serif;">
+        BANISHING GRADIENTS
+      </h1>
+      <p class="text-sm md:text-base text-gray-600 mt-1 italic">
+        America's Finest AI News Source
+      </p>
+    </a>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="bg-gray-900 text-white">
+    <div class="container mx-auto px-4">
+      <ul class="flex flex-wrap justify-center gap-1 md:gap-0">
+        {categories.map((category) => (
+          <li>
+            <a
+              href={category.href}
+              class="block px-4 py-2 text-sm font-medium hover:bg-gray-800 transition-colors uppercase tracking-wide"
+            >
+              {category.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+</header>

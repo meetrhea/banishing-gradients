@@ -1,0 +1,78 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { format } from 'date-fns';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  article: CollectionEntry<'articles'>;
+}
+
+const { article } = Astro.props;
+const { title, subtitle, excerpt, author, authorTitle, publishedAt, category, imageUrl, imageAlt, imageCredit } = article.data;
+const formattedDate = format(publishedAt, 'MMMM d, yyyy');
+
+// Calculate reading time (rough estimate)
+const content = await article.render();
+const wordCount = article.body?.split(/\s+/).length || 0;
+const readingTime = Math.ceil(wordCount / 200);
+---
+
+<BaseLayout title={title} description={excerpt} image={imageUrl}>
+  <Header />
+
+  <main class="flex-1">
+    <article class="max-w-3xl mx-auto px-4 py-8">
+      <!-- Category -->
+      <div class="mb-4">
+        <a href={`/category/${category.toLowerCase().replace(/\s+/g, '-')}`} class="category-badge hover:underline">
+          {category}
+        </a>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="article-headline-large mb-4">{title}</h1>
+
+      {subtitle && (
+        <p class="text-xl text-gray-600 mb-6 leading-relaxed">{subtitle}</p>
+      )}
+
+      <!-- Meta -->
+      <div class="flex flex-wrap items-center gap-2 text-sm text-gray-500 mb-6 pb-6 border-b">
+        <span class="font-medium text-gray-700">{author}</span>
+        {authorTitle && <span class="text-gray-400">({authorTitle})</span>}
+        <span class="mx-1">·</span>
+        <time datetime={publishedAt.toISOString()}>{formattedDate}</time>
+        <span class="mx-1">·</span>
+        <span>{readingTime} min read</span>
+      </div>
+
+      <!-- Featured Image -->
+      {imageUrl && (
+        <figure class="mb-8">
+          <img
+            src={imageUrl}
+            alt={imageAlt || title}
+            class="w-full h-auto"
+            loading="eager"
+          />
+          {imageCredit && (
+            <figcaption class="text-sm text-gray-500 mt-2 italic">
+              Photo: {imageCredit}
+            </figcaption>
+          )}
+        </figure>
+      )}
+
+      <!-- Article Content -->
+      <div class="article-content">
+        <slot />
+      </div>
+
+      <!-- Share / Tags could go here -->
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
