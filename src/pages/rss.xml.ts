@@ -12,7 +12,7 @@ export async function GET(context: APIContext) {
 
   return rss({
     title: 'Banishing Gradients',
-    description: "America's Finest AI News Source",
+    description: "America's Loss Function",
     site: context.site || 'https://banishinggradients.com',
     items: sortedArticles.map((article) => ({
       title: article.data.title,

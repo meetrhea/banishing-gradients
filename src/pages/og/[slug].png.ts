@@ -161,7 +161,7 @@ export const GET: APIRoute = async ({ props }) => {
                     color: '#666',
                     fontStyle: 'italic',
                   },
-                  children: "America's Finest AI News Source",
+                  children: "America's Loss Function",
                 },
               },
             },

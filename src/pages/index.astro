@@ -17,7 +17,10 @@ const secondaryArticles = sortedArticles.filter(a => a !== featuredArticle).slic
 const sidebarArticles = sortedArticles.filter(a => a !== featuredArticle && !secondaryArticles.includes(a)).slice(0, 5);
 ---
 
-<BaseLayout title="Home">
+<BaseLayout
+  title="Banishing Gradients - America's Loss Function"
+  description="Satirical news coverage of the artificial intelligence industry. Breaking stories about AGI breakthroughs, startup pivots, and the humans who believe their chatbots understand them."
+>
   <Header />
 
   <main class="flex-1">
