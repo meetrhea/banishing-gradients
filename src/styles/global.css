@@ -91,25 +91,26 @@
 }
 
 /* HOLIDAY DECORATION - Remove this block after the holidays */
-.holiday-garland {
-  background: repeating-linear-gradient(
-    90deg,
-    #2d5016 0px,
-    #2d5016 12px,
-    #1a3009 12px,
-    #1a3009 24px,
-    #2d5016 24px,
-    #2d5016 36px,
-    #c52f2f 36px,
-    #c52f2f 40px,
-    #2d5016 40px,
-    #2d5016 52px,
-    #1a3009 52px,
-    #1a3009 64px,
-    #2d5016 64px,
-    #2d5016 76px,
-    #c52f2f 76px,
-    #c52f2f 80px
-  );
+.holiday-garland-bar {
+  background: #1a472a;
+  padding: 6px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.garland-segment {
+  display: block;
+  height: 12px;
+  background-image:
+    radial-gradient(circle at 50% 100%, #2d5a1e 8px, transparent 8px),
+    radial-gradient(circle at 25% 80%, #3d7a2e 6px, transparent 6px),
+    radial-gradient(circle at 75% 80%, #3d7a2e 6px, transparent 6px),
+    radial-gradient(circle at 50% 50%, #c52f2f 5px, transparent 5px),
+    radial-gradient(circle at 10% 60%, #c52f2f 4px, transparent 4px),
+    radial-gradient(circle at 90% 60%, #c52f2f 4px, transparent 4px),
+    radial-gradient(circle at 30% 40%, #d4af37 3px, transparent 3px),
+    radial-gradient(circle at 70% 40%, #d4af37 3px, transparent 3px);
+  background-size: 80px 12px;
+  background-repeat: repeat-x;
 }
 /* END HOLIDAY DECORATION */

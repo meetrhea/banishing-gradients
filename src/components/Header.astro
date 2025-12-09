@@ -19,11 +19,16 @@ const showHolidayGarland = true;
 ---
 
 <header class="border-b-4 accent-border">
+  <!-- HOLIDAY DECORATION: Remove this block after the holidays -->
+  {showHolidayGarland && (
+    <div class="holiday-garland-bar" aria-hidden="true">
+      <span class="garland-segment"></span>
+    </div>
+  )}
+  <!-- END HOLIDAY DECORATION -->
+
   <!-- Top bar with date -->
-  <div class="bg-gray-100 py-1 text-center text-xs text-gray-600 border-b relative">
-    {showHolidayGarland && (
-      <div class="holiday-garland absolute inset-x-0 top-0 h-1 pointer-events-none" aria-hidden="true"></div>
-    )}
+  <div class="bg-gray-100 py-1 text-center text-xs text-gray-600 border-b">
     <span>{today}</span>
     <span class="mx-2">|</span>
     <span>Vol. MCMLXXXIV Issue 42</span>
