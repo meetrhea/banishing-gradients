@@ -20,7 +20,7 @@ const formattedDate = format(publishedAt, 'MMMM d, yyyy');
     {showImage && imageUrl && (
       <a href={`/article/${article.slug}`} class="block mb-4">
         <img
-          src={imageUrl.includes('unsplash.com') ? `${imageUrl}&q=75&fm=webp` : imageUrl}
+          src={imageUrl}
           alt={imageAlt || title}
           class="w-full h-64 md:h-80 object-cover"
           width="1200"
@@ -51,7 +51,7 @@ const formattedDate = format(publishedAt, 'MMMM d, yyyy');
     {showImage && imageUrl && (
       <a href={`/article/${article.slug}`} class="flex-shrink-0">
         <img
-          src={imageUrl.includes('unsplash.com') ? `${imageUrl}&q=75&fm=webp&w=320` : imageUrl}
+          src={imageUrl}
           alt={imageAlt || title}
           class="w-32 h-24 md:w-40 md:h-28 object-cover"
           width="160"

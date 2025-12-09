@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/download-images.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "start": "node dist/server/entry.mjs",
