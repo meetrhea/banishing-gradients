@@ -17,4 +17,9 @@ export default defineConfig({
       theme: 'github-dark',
     },
   },
+  vite: {
+    server: {
+      allowedHosts: ['banishinggradients.com', 'www.banishinggradients.com'],
+    },
+  },
 });
