@@ -1,11 +1,4 @@
 ---
-const today = new Date().toLocaleDateString('en-US', {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
-
 const categories = [
   { name: 'Industry News', href: '/category/industry-news' },
   { name: 'Research', href: '/category/research' },
@@ -29,7 +22,7 @@ const showHolidayGarland = true;
 
   <!-- Top bar with date -->
   <div class="bg-gray-100 py-1 text-center text-xs text-gray-600 border-b">
-    <span>{today}</span>
+    <span id="current-date"></span>
     <span class="mx-2">|</span>
     <span>Vol. MCMLXXXIV Issue 42</span>
   </div>
@@ -64,3 +57,17 @@ const showHolidayGarland = true;
     </div>
   </nav>
 </header>
+
+<script>
+  // Display current date in visitor's local timezone
+  const dateEl = document.getElementById('current-date');
+  if (dateEl) {
+    const today = new Date().toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    dateEl.textContent = today;
+  }
+</script>
