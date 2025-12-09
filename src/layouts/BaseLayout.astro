@@ -51,6 +51,7 @@ const ogImage = articleSlug
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:logo" content={`${siteURL}og/default.png`} />
     <meta property="og:locale" content="en_US" />
 
     {type === 'article' && publishedTime && (
@@ -67,10 +68,14 @@ const ogImage = articleSlug
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- Fonts - Georgia for headlines, system sans for body -->
+    <!-- Fonts - Preconnect and async load to avoid render blocking -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" />
+    </noscript>
 
     <!-- RSS Feed -->
     <link rel="alternate" type="application/rss+xml" title="Banishing Gradients RSS" href="/rss.xml" />

@@ -20,10 +20,14 @@ const formattedDate = format(publishedAt, 'MMMM d, yyyy');
     {showImage && imageUrl && (
       <a href={`/article/${article.slug}`} class="block mb-4">
         <img
-          src={imageUrl}
+          src={imageUrl.includes('unsplash.com') ? `${imageUrl}&q=75&fm=webp` : imageUrl}
           alt={imageAlt || title}
           class="w-full h-64 md:h-80 object-cover"
-          loading="lazy"
+          width="1200"
+          height="320"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
         />
       </a>
     )}
@@ -47,10 +51,13 @@ const formattedDate = format(publishedAt, 'MMMM d, yyyy');
     {showImage && imageUrl && (
       <a href={`/article/${article.slug}`} class="flex-shrink-0">
         <img
-          src={imageUrl}
+          src={imageUrl.includes('unsplash.com') ? `${imageUrl}&q=75&fm=webp&w=320` : imageUrl}
           alt={imageAlt || title}
           class="w-32 h-24 md:w-40 md:h-28 object-cover"
+          width="160"
+          height="112"
           loading="lazy"
+          decoding="async"
         />
       </a>
     )}
