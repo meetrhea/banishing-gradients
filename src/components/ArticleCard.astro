@@ -13,6 +13,9 @@ const { article, variant = 'standard', showImage = true } = Astro.props;
 const { title, excerpt, author: authorSlug, publishedAt, category, imageUrl, imageAlt } = article.data;
 const author = getAuthorBySlug(authorSlug);
 const formattedDate = format(publishedAt, 'MMMM d, yyyy');
+
+// Generate thumbnail URL from featured image URL
+const thumbnailUrl = imageUrl?.replace('.webp', '-thumb.webp');
 ---
 
 {variant === 'featured' && (
@@ -23,8 +26,8 @@ const formattedDate = format(publishedAt, 'MMMM d, yyyy');
           src={imageUrl}
           alt={imageAlt || title}
           class="w-full h-64 md:h-80 object-cover"
-          width="1200"
-          height="320"
+          width="800"
+          height="533"
           loading="eager"
           fetchpriority="high"
           decoding="async"
@@ -48,14 +51,14 @@ const formattedDate = format(publishedAt, 'MMMM d, yyyy');
 
 {variant === 'standard' && (
   <article class="group flex gap-4">
-    {showImage && imageUrl && (
+    {showImage && thumbnailUrl && (
       <a href={`/article/${article.slug}`} class="flex-shrink-0">
         <img
-          src={imageUrl}
+          src={thumbnailUrl}
           alt={imageAlt || title}
           class="w-32 h-24 md:w-40 md:h-28 object-cover"
-          width="160"
-          height="112"
+          width="320"
+          height="213"
           loading="lazy"
           decoding="async"
         />
