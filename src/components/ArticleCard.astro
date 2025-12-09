@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { format } from 'date-fns';
+import { getAuthorBySlug } from '../data/authors';
 
 interface Props {
   article: CollectionEntry<'articles'>;
@@ -9,7 +10,8 @@ interface Props {
 }
 
 const { article, variant = 'standard', showImage = true } = Astro.props;
-const { title, excerpt, author, publishedAt, category, imageUrl, imageAlt } = article.data;
+const { title, excerpt, author: authorSlug, publishedAt, category, imageUrl, imageAlt } = article.data;
+const author = getAuthorBySlug(authorSlug);
 const formattedDate = format(publishedAt, 'MMMM d, yyyy');
 ---
 
@@ -33,7 +35,7 @@ const formattedDate = format(publishedAt, 'MMMM d, yyyy');
     </h2>
     <p class="text-gray-600 text-lg mb-3 line-clamp-3">{excerpt}</p>
     <div class="text-sm text-gray-500">
-      <span class="font-medium text-gray-700">{author}</span>
+      <span class="font-medium text-gray-700">{author?.name || authorSlug}</span>
       <span class="mx-2">·</span>
       <time datetime={publishedAt.toISOString()}>{formattedDate}</time>
     </div>

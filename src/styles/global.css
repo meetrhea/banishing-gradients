@@ -89,3 +89,27 @@
 .article-content h3 {
   @apply text-xl font-bold mt-6 mb-3;
 }
+
+/* HOLIDAY DECORATION - Remove this block after the holidays */
+.holiday-garland {
+  background: repeating-linear-gradient(
+    90deg,
+    #2d5016 0px,
+    #2d5016 12px,
+    #1a3009 12px,
+    #1a3009 24px,
+    #2d5016 24px,
+    #2d5016 36px,
+    #c52f2f 36px,
+    #c52f2f 40px,
+    #2d5016 40px,
+    #2d5016 52px,
+    #1a3009 52px,
+    #1a3009 64px,
+    #2d5016 64px,
+    #2d5016 76px,
+    #c52f2f 76px,
+    #c52f2f 80px
+  );
+}
+/* END HOLIDAY DECORATION */

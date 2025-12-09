@@ -13,11 +13,17 @@ const categories = [
   { name: 'Corporate', href: '/category/corporate' },
   { name: 'Opinion', href: '/category/opinion' },
 ];
+
+// HOLIDAY DECORATION: Set to false to remove holiday styling
+const showHolidayGarland = true;
 ---
 
 <header class="border-b-4 accent-border">
   <!-- Top bar with date -->
-  <div class="bg-gray-100 py-1 text-center text-xs text-gray-600 border-b">
+  <div class="bg-gray-100 py-1 text-center text-xs text-gray-600 border-b relative">
+    {showHolidayGarland && (
+      <div class="holiday-garland absolute inset-x-0 top-0 h-1 pointer-events-none" aria-hidden="true"></div>
+    )}
     <span>{today}</span>
     <span class="mx-2">|</span>
     <span>Vol. MCMLXXXIV Issue 42</span>

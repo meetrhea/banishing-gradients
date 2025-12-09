@@ -4,13 +4,15 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { format } from 'date-fns';
 import type { CollectionEntry } from 'astro:content';
+import { getAuthorBySlug } from '../data/authors';
 
 interface Props {
   article: CollectionEntry<'articles'>;
 }
 
 const { article } = Astro.props;
-const { title, subtitle, excerpt, author, authorTitle, publishedAt, category, imageUrl, imageAlt, imageCredit } = article.data;
+const { title, subtitle, excerpt, author: authorSlug, publishedAt, category, imageUrl, imageAlt, imageCredit } = article.data;
+const author = getAuthorBySlug(authorSlug);
 const formattedDate = format(publishedAt, 'MMMM d, yyyy');
 
 // Calculate reading time (rough estimate)
@@ -40,8 +42,8 @@ const readingTime = Math.ceil(wordCount / 200);
 
       <!-- Meta -->
       <div class="flex flex-wrap items-center gap-2 text-sm text-gray-500 mb-6 pb-6 border-b">
-        <span class="font-medium text-gray-700">{author}</span>
-        {authorTitle && <span class="text-gray-400">({authorTitle})</span>}
+        <a href="/contributors" class="font-medium text-gray-700 hover:underline">{author?.name || authorSlug}</a>
+        {author?.title && <span class="text-gray-400">({author.title})</span>}
         <span class="mx-1">·</span>
         <time datetime={publishedAt.toISOString()}>{formattedDate}</time>
         <span class="mx-1">·</span>
