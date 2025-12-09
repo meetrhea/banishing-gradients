@@ -1,10 +1,16 @@
 import Database from 'better-sqlite3';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { join } from 'path';
+import { mkdirSync, existsSync } from 'fs';
 
-// Get directory of current file to store db in data folder
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const dbPath = join(__dirname, '../../data/banishing-gradients.db');
+// Use DATA_DIR env var if set, otherwise default to ./data in project root
+const dataDir = process.env.DATA_DIR || join(process.cwd(), 'data');
+
+// Ensure data directory exists
+if (!existsSync(dataDir)) {
+  mkdirSync(dataDir, { recursive: true });
+}
+
+const dbPath = join(dataDir, 'banishing-gradients.db');
 
 // Create database connection (creates file if doesn't exist)
 const db = new Database(dbPath);
