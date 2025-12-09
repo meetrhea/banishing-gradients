@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ShareButtons from '../components/ShareButtons.astro';
 import { format } from 'date-fns';
 import type { CollectionEntry } from 'astro:content';
 import { getAuthorBySlug } from '../data/authors';
@@ -19,9 +20,19 @@ const formattedDate = format(publishedAt, 'MMMM d, yyyy');
 const content = await article.render();
 const wordCount = article.body?.split(/\s+/).length || 0;
 const readingTime = Math.ceil(wordCount / 200);
+
+// Full article URL for sharing
+const articleUrl = `https://banishinggradients.com/article/${article.slug}`;
 ---
 
-<BaseLayout title={title} description={excerpt} image={imageUrl}>
+<BaseLayout
+  title={title}
+  description={excerpt}
+  articleSlug={article.slug}
+  type="article"
+  publishedTime={publishedAt}
+  author={author?.name}
+>
   <Header />
 
   <main class="flex-1">
@@ -72,7 +83,10 @@ const readingTime = Math.ceil(wordCount / 200);
         <slot />
       </div>
 
-      <!-- Share / Tags could go here -->
+      <!-- Share Buttons -->
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <ShareButtons title={title} url={articleUrl} description={excerpt} />
+      </div>
     </article>
   </main>
 

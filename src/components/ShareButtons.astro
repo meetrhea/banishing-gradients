@@ -1,0 +1,127 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  description?: string;
+}
+
+const { title, url, description = '' } = Astro.props;
+const encodedTitle = encodeURIComponent(title);
+const encodedUrl = encodeURIComponent(url);
+const encodedDescription = encodeURIComponent(description);
+---
+
+<div class="share-buttons flex items-center gap-4 text-sm">
+  <span class="text-gray-500 font-medium">Share:</span>
+
+  <!-- Twitter/X -->
+  <a
+    href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="text-gray-600 hover:text-gray-900 transition-colors"
+    title="Share on X"
+  >
+    X
+  </a>
+
+  <!-- Facebook -->
+  <a
+    href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="text-gray-600 hover:text-gray-900 transition-colors"
+    title="Share on Facebook"
+  >
+    Facebook
+  </a>
+
+  <!-- LinkedIn -->
+  <a
+    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="text-gray-600 hover:text-gray-900 transition-colors"
+    title="Share on LinkedIn"
+  >
+    LinkedIn
+  </a>
+
+  <!-- Copy Link -->
+  <button
+    type="button"
+    class="copy-link text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
+    data-url={url}
+    title="Copy link"
+  >
+    Copy Link
+  </button>
+
+  <!-- Native Share (mobile) -->
+  <button
+    type="button"
+    class="native-share text-gray-600 hover:text-gray-900 transition-colors cursor-pointer hidden"
+    data-title={title}
+    data-url={url}
+    data-text={description}
+    title="Share"
+  >
+    Share
+  </button>
+</div>
+
+<script>
+  // Copy link functionality
+  document.querySelectorAll('.copy-link').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const url = (btn as HTMLElement).dataset.url;
+      if (url) {
+        try {
+          await navigator.clipboard.writeText(url);
+          const originalText = btn.textContent;
+          btn.textContent = 'Copied!';
+          setTimeout(() => {
+            btn.textContent = originalText;
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      }
+    });
+  });
+
+  // Native share API (show on mobile if available)
+  if (navigator.share) {
+    document.querySelectorAll('.native-share').forEach((btn) => {
+      btn.classList.remove('hidden');
+      btn.addEventListener('click', async () => {
+        const el = btn as HTMLElement;
+        try {
+          await navigator.share({
+            title: el.dataset.title,
+            text: el.dataset.text,
+            url: el.dataset.url,
+          });
+        } catch (err) {
+          // User cancelled or error - silently ignore
+        }
+      });
+    });
+  }
+
+  // Track share clicks
+  document.querySelectorAll('.share-buttons a, .share-buttons button').forEach((el) => {
+    el.addEventListener('click', () => {
+      const platform = el.getAttribute('title')?.replace('Share on ', '').toLowerCase() || 'unknown';
+      fetch('/api/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event: 'share_click',
+          data: { platform },
+          url: window.location.href,
+        }),
+      }).catch(() => {}); // Fire and forget
+    });
+  });
+</script>
