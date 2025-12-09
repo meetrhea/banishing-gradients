@@ -19,10 +19,10 @@ export default defineConfig({
   },
   vite: {
     server: {
-      allowedHosts: ['banishinggradients.com', 'www.banishinggradients.com'],
+      allowedHosts: true,
     },
     preview: {
-      allowedHosts: ['banishinggradients.com', 'www.banishinggradients.com'],
+      allowedHosts: true,
     },
   },
 });
